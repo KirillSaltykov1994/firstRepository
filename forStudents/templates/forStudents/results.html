@@ -1,0 +1,28 @@
+<h1> Список верных ответов </h1>
+
+
+{% if latest_question_list %}
+    <ul>
+        <script>
+    var normrezult =0
+    </script>
+    {% for questioni in latest_question_list %}
+         {% for choice in questioni.choice_set.all %}
+         {% if choice.right %}
+        <li>{{ choice.choice_text }} &#45;&#45; {{ choice.votes }} </li>
+                {%endif%}
+        {% endfor %}
+    {% endfor %}
+    </ul>
+</ul>
+{% else %}
+    <p>No questions are available.</p>
+{% endif %}
+{%if truelist %}
+<p>Ваши верные ответы</p>
+{%for ch in truelist %}
+    <li>{{ ch.choice_text }} </li>
+{%endfor%}
+{%endif%}
+
+<a href="{% url 'forStudents:index' %}">Ещё поотвечаем?</a>

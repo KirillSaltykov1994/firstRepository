@@ -1,0 +1,36 @@
+<!-- templates/registration/login.html -->
+<!-- templates/base.html -->
+{% load static %}
+<html>
+  <head>
+    <title>Здравствуйте</title>
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400"
+    rel="stylesheet">
+<!--    <link href="{% static 'css/base.css' %}" rel="stylesheet">-->
+  </head>
+  <body>
+    <div>
+      <header>
+        <div class="nav-left">
+          <h1><a href="{% url 'forStudents:index' %}">Здравствуйте</a></h1>
+        </div>
+      </header>
+      {% if user.is_authenticated %}
+        <p>Hi {{ user.username }}!</p>
+      {% else %}
+        <p>Необходимо войти в систему</p>
+<!--        <a href="{% url 'login' %}">Log In</a>-->
+      {% endif %}
+    {% block content %}
+    {% endblock content %}
+    </div>
+  </body>
+</html>
+ &nbsp;{% block content2 %}
+<h2>Log In</h2>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Log In</button>
+</form>
+{% endblock content2 %}

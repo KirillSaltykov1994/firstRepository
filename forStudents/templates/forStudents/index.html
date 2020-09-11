@@ -1,0 +1,10 @@
+{% if latest_tests_list %}
+    <ul>
+    {% for tests in latest_tests_list %}
+        <li><a href="{% url 'forStudents:question_of_test' tests.id %}">{{ tests.nameOfTest }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Что-то пошло не так</p>
+{% endif %}
+<p><a href="{% url 'logout' %}">Log out</a></p>
