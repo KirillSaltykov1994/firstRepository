@@ -24,5 +24,6 @@ class Choice(models.Model):
     choice_text = models.CharField(max_length=200)
     votes = models.BooleanField(default=False)
     right = models.BooleanField(default=False)
+    score = models.IntegerField(default=1)
     def __str__(self):
         return self.choice_text

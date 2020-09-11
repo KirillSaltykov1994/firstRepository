@@ -45,8 +45,6 @@ def question_of_test(request, test_id):
     }
     return render(request, 'forStudents/question_of_test.html', context)
 
-#    return HttpResponse(template.render(context, request))
-
 
 
 def detail(request, question_id):
@@ -83,9 +81,12 @@ def vote(request, question_id):
     #    latest_question_list = Question.objects.order_by('-pub_date')[:5]
 
         truelist = Choice.objects.filter(question__in=latest_question_list.values('id'), votes=True)
-
+        score = 0
+        for i in truelist:
+            score = score+i.score
         return render(request, 'forStudents/results.html', {'question': question,
-                                                            'latest_question_list': latest_question_list, 'truelist':truelist})
+                                                            'latest_question_list': latest_question_list, 'truelist':truelist, 'truecol':truelist,
+                                                            'truecol':len(truelist), 'score':score})
 def login(request):
     username = request.POST['username']
     password = request.POST['password']

@@ -24,5 +24,8 @@
     <li>{{ ch.choice_text }} </li>
 {%endfor%}
 {%endif%}
-
+<p> Количество верных ответов</p>
+<li>{{truecol}}</li>
+<p> Количество баллов</p>
+<li>{{score}}</li>
 <a href="{% url 'forStudents:index' %}">Ещё поотвечаем?</a>
