@@ -1,10 +1,10 @@
 {% if latest_tests_list %}
-    <ul>
+<ul>
     {% for tests in latest_tests_list %}
-        <li><a href="{% url 'forStudents:question_of_test' tests.id %}">{{ tests.nameOfTest }}</a></li>
+    <li><a href="{% url 'forStudents:question_of_test' tests.id %}">{{ tests.nameOfTest }}</a></li>
     {% endfor %}
-    </ul>
+</ul>
 {% else %}
-    <p>Что-то пошло не так</p>
+<p>Нет тестов. Обратитесь к администратору, чтобы он их создал через админку.</p>
 {% endif %}
 <p><a href="{% url 'logout' %}">Log out</a></p>

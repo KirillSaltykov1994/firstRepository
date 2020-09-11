@@ -1,10 +1,10 @@
 {% if latest_question_list %}
-    <ul>
+<ul>
     {% for question in latest_question_list %}
-        <li><a href="{% url 'forStudents:detail' question.id %}">{{ question.question_text }}</a></li>
+    <li><a href="{% url 'forStudents:detail' question.id %}">{{ question.question_text }}</a></li>
     {% endfor %}
-    </ul>
+</ul>
 {% else %}
-    <p>Тут нет вопросов. Чудеса...</p>
+<p>В данном тесте нет вопросов.</p>
 {% endif %}
 <p><a href="{% url 'logout' %}">Log out</a></p>

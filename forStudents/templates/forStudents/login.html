@@ -2,35 +2,35 @@
 <!-- templates/base.html -->
 {% load static %}
 <html>
-  <head>
-    <title>Django blog</title>
+<head>
+    <title>Здравствуйте</title>
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400"
-    rel="stylesheet">
+          rel="stylesheet">
     <link href="{% static 'css/base.css' %}" rel="stylesheet">
-  </head>
-  <body>
-    <div>
-      <header>
+</head>
+<body>
+<div>
+    <header>
         <div class="nav-left">
-          <h1><a href="{% url 'forStudents:index' %}">Django blog</a></h1>
+            <h1><a href="{% url 'forStudents:index' %}">Django blog</a></h1>
         </div>
-      </header>
-      {% if user.is_authenticated %}
-        <p>Hi {{ user.username }}!</p>
-      {% else %}
-        <p>You are not logged in.</p>
-        <a href="{% url 'forStudents:login' %}">Log In</a>
-      {% endif %}
+    </header>
+    {% if user.is_authenticated %}
+    <p>Hi {{ user.username }}!</p>
+    {% else %}
+    <p>You are not logged in.</p>
+    <a href="{% url 'forStudents:login' %}">Log In</a>
+    {% endif %}
     {% block content %}
     {% endblock content %}
-    </div>
-  </body>
+</div>
+</body>
 </html>
- &nbsp;{% block content2 %}
+&nbsp;{% block content2 %}
 <h2>Log In</h2>
 <form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Log In</button>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Log In</button>
 </form>
 {% endblock content2 %}

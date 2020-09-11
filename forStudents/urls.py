@@ -9,11 +9,6 @@ from .views import SignUpView
 
 app_name = 'forStudents'
 urlpatterns = [
-    # ex: /polls/
-    # ex: /polls/5/
-#    url(r'^index2/(\d+)', TemplateView.as_view(template_name='index.html'), name='index'),
-
- #   url(r'^index/(\d+)', views.index2, name='index'),
 
     # ex: /polls/5/results/
     url(r'^/results/', views.results, name='results'),
