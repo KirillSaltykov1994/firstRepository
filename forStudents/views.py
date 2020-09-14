@@ -79,13 +79,17 @@ def vote(request, question_id):
         score = 0
         for i in truelist:
             score = score + i.score
-        tryes = Tryes.objects.get(user=request.user,test=question.parent_test)
+        if score>Tests.objects.get(id=question.parent_test.id).limit:
+            res='Тест пройден'
+        else:
+            res='Тест провален'
+        tryes = Tryes.objects.get(user=request.user,test__id=question.parent_test.id)
         tryes.count = tryes.count+1
         tryes.save()
         return render(request, 'forStudents/results.html', {'question': question,
                                                             'latest_question_list': latest_question_list,
                                                             'truelist': truelist, 'truecol': truelist,
-                                                            'truecol': len(truelist), 'score': score, 'tryes':tryes.count})
+                                                            'truecol': len(truelist), 'score': score, 'tryes':tryes.count,'res':res})
 
 
 def login(request):
@@ -102,10 +106,6 @@ class SignUpView(generic.CreateView):
     form_class = UserCreationForm
     success_url = reverse_lazy('login')
     template_name = 'forStudents/signup.html'
-
-def post_new(request):
-    form = PostForm()
-    return render(request, 'forStudents/post_edit.html', {'form': form})
 
 def logout_view(request):
     logout(request)
