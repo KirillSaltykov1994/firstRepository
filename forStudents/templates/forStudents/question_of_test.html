@@ -1,3 +1,6 @@
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+
 {% if latest_question_list %}
 <ul>
     {% for question in latest_question_list %}
@@ -7,4 +10,8 @@
 {% else %}
 <p>В данном тесте нет вопросов.</p>
 {% endif %}
+{% if fail %}
+<p> {{fail}}</p>
+<a href="{% url 'forStudents:index' %}">Ещё поотвечаем?</a>
+{%endif %}
 <p><a href="{% url 'logout' %}">Log out</a></p>

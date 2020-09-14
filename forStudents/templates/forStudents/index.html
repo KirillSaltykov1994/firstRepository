@@ -1,5 +1,9 @@
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+
 {% if latest_tests_list %}
 <ul>
+<!--    <a href="{% url 'forStudents:post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>-->
     {% for tests in latest_tests_list %}
     <li><a href="{% url 'forStudents:question_of_test' tests.id %}">{{ tests.nameOfTest }}</a></li>
     {% endfor %}
@@ -7,4 +11,5 @@
 {% else %}
 <p>Нет тестов. Обратитесь к администратору, чтобы он их создал через админку.</p>
 {% endif %}
-<p><a href="{% url 'logout' %}">Log out</a></p>
+<p><a href="{% url 'logout' %}">Разлогиниться </a></p>
+<p><a href="{% url 'forStudents:signup' %}">Регистрация</a></p>

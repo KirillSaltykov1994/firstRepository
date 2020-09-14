@@ -10,7 +10,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
 
-from forStudents.models import Question, Choice, Tests
+from forStudents.forms import PostForm
+from forStudents.models import Question, Choice, Tests, Tryes
 
 
 @login_required(login_url='/accounts/login/')
@@ -26,11 +27,21 @@ def question_of_test(request, test_id):
         votes.save()
     latest_question_list = Question.objects.filter(parent_test=test_id)
     template = loader.get_template('forStudents/question_of_test.html')
-    context = {
+    try:
+        tryes = Tryes.objects.get(user=request.user,test__id=test_id)
+    except:
+        tryes =Tryes(user=request.user, test=Tests.objects.get(id=test_id), count=0)
+        tryes.save()
+    if tryes.count<3:
+        context = {
         'latest_question_list': latest_question_list,
-    }
-    return render(request, 'forStudents/question_of_test.html', context)
-
+        }
+        return render(request, 'forStudents/question_of_test.html', context)
+    else:
+        context = {
+            'fail': u'Больше нельзя проходить этот тест',
+        }
+        return render(request, 'forStudents/question_of_test.html', context)
 
 def detail(request, question_id):
     try:
@@ -68,10 +79,13 @@ def vote(request, question_id):
         score = 0
         for i in truelist:
             score = score + i.score
+        tryes = Tryes.objects.get(user=request.user,test=question.parent_test)
+        tryes.count = tryes.count+1
+        tryes.save()
         return render(request, 'forStudents/results.html', {'question': question,
                                                             'latest_question_list': latest_question_list,
                                                             'truelist': truelist, 'truecol': truelist,
-                                                            'truecol': len(truelist), 'score': score})
+                                                            'truecol': len(truelist), 'score': score, 'tryes':tryes.count})
 
 
 def login(request):
@@ -87,8 +101,11 @@ def login(request):
 class SignUpView(generic.CreateView):
     form_class = UserCreationForm
     success_url = reverse_lazy('login')
-    template_name = 'signup.html'
+    template_name = 'forStudents/signup.html'
 
+def post_new(request):
+    form = PostForm()
+    return render(request, 'forStudents/post_edit.html', {'form': form})
 
 def logout_view(request):
     logout(request)

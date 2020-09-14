@@ -20,6 +20,8 @@ urlpatterns = [
     url(r'^(\d+)/detail', views.detail, name='detail'),
 
 #    url('login/', views.login, name='login'),
-    url('signup/', SignUpView.as_view(), name='signup'),
+    url('signup', SignUpView.as_view(), name='signup'),
+    url('post/new/', views.post_new, name='post_new'),
+
     url(r'', views.index, name='index'),
 ]

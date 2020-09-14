@@ -1,0 +1,9 @@
+{% extends 'forStudents/base.html' %}
+
+{% block content %}
+    <h1>New post</h1>
+    <form method="POST" class="post-form">{% csrf_token %}
+        {{ form.question_text }}
+        <button type="submit" class="save btn btn-default">Save</button>
+    </form>
+{% endblock %}
