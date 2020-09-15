@@ -1,4 +1,5 @@
 BEGIN;
+CREATE database TestDB;
 --
 -- Create model Choice
 --
