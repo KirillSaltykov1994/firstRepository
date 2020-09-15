@@ -9,8 +9,6 @@ from django.template import loader
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
-
-from forStudents.forms import PostForm
 from forStudents.models import Question, Choice, Tests, Tryes
 
 
@@ -25,16 +23,16 @@ def question_of_test(request, test_id):
     for votes in Choice.objects.filter(votes=True):
         votes.votes = False
         votes.save()
-    latest_question_list = Question.objects.filter(parent_test=test_id)
+    latest_question_list = Question.objects.filter(parent_test=test_id).order_by('number')
     template = loader.get_template('forStudents/question_of_test.html')
     try:
-        tryes = Tryes.objects.get(user=request.user,test__id=test_id)
+        tryes = Tryes.objects.get(user=request.user, test__id=test_id)
     except:
-        tryes =Tryes(user=request.user, test=Tests.objects.get(id=test_id), count=0)
+        tryes = Tryes(user=request.user, test=Tests.objects.get(id=test_id), count=0)
         tryes.save()
-    if tryes.count<3:
+    if tryes.count < 3:
         context = {
-        'latest_question_list': latest_question_list,
+            'latest_question_list': latest_question_list,
         }
         return render(request, 'forStudents/question_of_test.html', context)
     else:
@@ -42,6 +40,7 @@ def question_of_test(request, test_id):
             'fail': u'Больше нельзя проходить этот тест',
         }
         return render(request, 'forStudents/question_of_test.html', context)
+
 
 def detail(request, question_id):
     try:
@@ -73,23 +72,24 @@ def vote(request, question_id):
         if question.number < max(latest_question_list.values('number')).get('number'):
             return render(request, 'forStudents/detail.html',
                           {'question': get_object_or_404(Question,
-                                                         number=question.number + 1)})  # Question.objects.filter(number=question.number+1)})
+                                                         number=question.number + 1)})
 
         truelist = Choice.objects.filter(question__in=latest_question_list.values('id'), votes=True)
         score = 0
         for i in truelist:
             score = score + i.score
-        if score>Tests.objects.get(id=question.parent_test.id).limit:
-            res='Тест пройден'
+        if score > Tests.objects.get(id=question.parent_test.id).limit:
+            res = 'Тест пройден'
         else:
-            res='Тест провален'
-        tryes = Tryes.objects.get(user=request.user,test__id=question.parent_test.id)
-        tryes.count = tryes.count+1
+            res = 'Тест провален'
+        tryes = Tryes.objects.get(user=request.user, test__id=question.parent_test.id)
+        tryes.count = tryes.count + 1
         tryes.save()
         return render(request, 'forStudents/results.html', {'question': question,
                                                             'latest_question_list': latest_question_list,
                                                             'truelist': truelist, 'truecol': truelist,
-                                                            'truecol': len(truelist), 'score': score, 'tryes':tryes.count,'res':res})
+                                                            'truecol': len(truelist), 'score': score,
+                                                            'tryes': tryes.count, 'res': res})
 
 
 def login(request):
@@ -106,6 +106,7 @@ class SignUpView(generic.CreateView):
     form_class = UserCreationForm
     success_url = reverse_lazy('login')
     template_name = 'forStudents/signup.html'
+
 
 def logout_view(request):
     logout(request)

@@ -3,7 +3,6 @@
 
 {% if latest_tests_list %}
 <ul>
-<!--    <a href="{% url 'forStudents:post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>-->
     {% for tests in latest_tests_list %}
     <li><a href="{% url 'forStudents:question_of_test' tests.id %}">{{ tests.nameOfTest }}</a></li>
     {% endfor %}
